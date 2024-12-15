@@ -47,6 +47,7 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "assetBundlePatterns": ["./src/assets/fonts/*"]
   }
 }
