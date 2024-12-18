@@ -19,12 +19,14 @@ import { signin } from '@/service/authService';
 const auth = () => {
   const [phoneText, setPhoneText] = useState('');
 
-  function hanldeNext() {
+  async function hanldeNext() {
     if (!phoneText && phoneText.length != 10) {
       Alert.alert('Bro enter your phone number');
       return;
     }
-    signin({ role: 'customer', phone: phoneText });
+
+    await signin({ role: 'customer', phone: phoneText });
+
     resetAndNavigate('/customer/home');
   }
 

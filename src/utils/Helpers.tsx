@@ -1,9 +1,8 @@
-import { Href, Router, router } from "expo-router";
+import { Href, router } from 'expo-router';
 
-export const resetAndNavigate = (newPath: Href<string | object>) => {
-    if (router.canGoBack()) {
-        router.dismissAll();
-    }
-    router.replace(newPath);
-}
-
+export const resetAndNavigate = (newPath: Href) => {
+  if (router.canGoBack()) {
+    router.dismissAll();
+  }
+  router.replace(newPath);
+};

@@ -1,35 +1,13 @@
 import axios from 'axios';
 import { tokenStorage } from '../store/storage';
-import { logout } from './authService';
-
-export const refresh_tokens = async () => {
-  try {
-    const refreshToken = tokenStorage.getString('refresh_token');
-    const response = await axios.post(`${BASE_URL}/auth/refresh-token`, {
-      refresh_token: refreshToken,
-    });
-
-    const new_access_token = response.data.access_token;
-    const new_refresh_token = response.data.refresh_token;
-
-    tokenStorage.set('access_token', new_access_token);
-    tokenStorage.set('refresh_token', new_refresh_token);
-
-    return new_access_token;
-  } catch (error) {
-    console.error('REFRESH_TOKEN_ERROR');
-    tokenStorage.clearAll();
-    resetAndNavigate('/role');
-    logout();
-  }
-};
+import { BASE_URL } from './config';
 
 export const appAxios = axios.create({
   baseURL: BASE_URL,
 });
 
 appAxios.interceptors.request.use(async (config) => {
-  const accessToken = tokenStorage.getString('access_token');
+  const accessToken = await tokenStorage.getItem('access_token');
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }

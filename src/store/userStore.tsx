@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
-import { mmkvStorage } from './storage';
+import { appStorage } from './storage';
 
 type CustomLocation = {
   latitude: number;
@@ -32,7 +32,7 @@ export const useUserStorage = create<UserStoreProps>()(
     {
       name: 'user-store', // Key for persisted data
       partialize: (state) => ({ user: state.user }), // Only persist the user property
-      storage: createJSONStorage(() => mmkvStorage), // Use MMKV for storage
+      storage: createJSONStorage(() => appStorage), // Use expo-secure-store for storage
     }
   )
 );
