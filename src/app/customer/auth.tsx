@@ -4,6 +4,7 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import React, { useState } from 'react';
 import { authStyles } from '@/styles/authStyles';
@@ -12,11 +13,20 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import CustomText from '@/components/shared/CustomText';
 import PhoneInput from '@/components/shared/PhoneInput';
 import CustomButton from '@/components/shared/CustomButton';
+import { resetAndNavigate } from '@/utils/Helpers';
+import { signin } from '@/service/authService';
 
 const auth = () => {
   const [phoneText, setPhoneText] = useState('');
 
-  function hanldeNext() {}
+  function hanldeNext() {
+    if (!phoneText && phoneText.length != 10) {
+      Alert.alert('Bro enter your phone number');
+      return;
+    }
+    signin({ role: 'customer', phone: phoneText });
+    resetAndNavigate('/customer/home');
+  }
 
   return (
     <SafeAreaView style={[authStyles.container]}>
