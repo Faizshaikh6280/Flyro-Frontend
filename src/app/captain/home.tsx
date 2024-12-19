@@ -12,7 +12,6 @@ const home = () => {
         backgroundColor="orange"
         translucent={false}
       ></StatusBar>
-      <LocationBar />
     </View>
   );
 };

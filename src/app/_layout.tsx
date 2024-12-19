@@ -9,10 +9,15 @@ const Layout = () => {
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
         <Stack.Screen name="role" />
+
+        {/* Customer  Screens*/}
         <Stack.Screen name="customer/auth" />
+        <Stack.Screen name="customer/home" />
+        <Stack.Screen name="customer/selectlocation" />
+
+        {/* Customer  Screens*/}
         <Stack.Screen name="captain/auth" />
         <Stack.Screen name="captain/home" />
-        <Stack.Screen name="customer/home" />
       </Stack>
     </WSProvider>
   );

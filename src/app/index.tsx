@@ -12,11 +12,11 @@ import { useUserStorage } from '@/store/userStore';
 
 const Main = () => {
   const [fontsLoaded] = useFonts({
-    'NotoSans-Bold': require('@/assets/fonts/NotoSans-Bold.ttf'),
-    'NotoSans-Regular': require('@/assets/fonts/NotoSans-Regular.ttf'),
-    'NotoSans-Light': require('@/assets/fonts/NotoSans-Light.ttf'),
-    'NotoSans-SemiBold': require('@/assets/fonts/NotoSans-SemiBold.ttf'),
-    'NotoSans-Medium': require('@/assets/fonts/NotoSans-Medium.ttf'),
+    Bold: require('@/assets/fonts/NotoSans-Bold.ttf'),
+    Regular: require('@/assets/fonts/NotoSans-Regular.ttf'),
+    Light: require('@/assets/fonts/NotoSans-Light.ttf'),
+    SemiBold: require('@/assets/fonts/NotoSans-SemiBold.ttf'),
+    Medium: require('@/assets/fonts/NotoSans-Medium.ttf'),
   });
 
   const [hasNavigated, setHasNavigated] = useState(false);

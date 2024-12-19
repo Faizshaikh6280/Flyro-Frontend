@@ -37,7 +37,7 @@ const CustomText: FC<CustomTextProps> = ({
           styles.text,
           {
             fontSize: RFValue(fontSize ? fontSize : fontSizes[variant]),
-            fontFamily: `NotoSans-${fontFamily}`,
+            fontFamily: `${fontFamily}`,
           },
           style,
         ]}
