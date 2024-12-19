@@ -16,36 +16,38 @@ export const logout = async () => {
   resetAndNavigate('/role');
 };
 
-export const signin = async (payload: {
-  role: 'customer' | 'captain';
-  phone: string;
-}) => {
-  const { setUser } = useUserStorage.getState();
-  const { setUser: setCaptainUser } = useCaptainStore.getState();
-
-  const res = await appAxios.post(`/auth/signin`, payload);
-
-  if (res.data.user.role === 'customer') {
-    setUser(res.data.user);
-  } else {
-    setCaptainUser(res.data.user);
-  }
-
-  const new_access_token = res.data.access_token;
-  const new_refresh_token = res.data.refresh_token;
-
-  tokenStorage.setItem('access_token', new_access_token);
-  tokenStorage.setItem('refresh_token', new_refresh_token);
-
-  if (res.data.user.role === 'customer') {
-    resetAndNavigate('/customer/home');
-  } else {
-    resetAndNavigate('/captain/home');
-  }
-
+export const signin = async (
+  payload: {
+    role: 'customer' | 'captain';
+    phone: string;
+  },
+  updateAccessToken: () => void
+) => {
   try {
+    const { setUser } = useUserStorage.getState();
+    const { setUser: setCaptainUser } = useCaptainStore.getState();
+    const res = await appAxios.post(`/auth/signin`, payload);
+
+    if (res.data.user.role === 'customer') {
+      setUser(res.data.user);
+    } else {
+      setCaptainUser(res.data.user);
+    }
+
+    const new_access_token = res.data.access_token;
+    const new_refresh_token = res.data.refresh_token;
+
+    tokenStorage.setItem('access_token', new_access_token);
+    tokenStorage.setItem('refresh_token', new_refresh_token);
+
+    if (res.data.user.role === 'customer') {
+      resetAndNavigate('/customer/home');
+    } else {
+      resetAndNavigate('/captain/home');
+    }
+    updateAccessToken();
   } catch (error: any) {
-    Alert.alert('Oh! Dang there was an error ');
+    Alert.alert('Oh! dang there was an error');
     console.log('Error: ', error?.response?.data?.msg || 'Error siging user');
   }
 };

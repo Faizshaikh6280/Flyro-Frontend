@@ -13,21 +13,20 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import CustomText from '@/components/shared/CustomText';
 import PhoneInput from '@/components/shared/PhoneInput';
 import CustomButton from '@/components/shared/CustomButton';
-import { resetAndNavigate } from '@/utils/Helpers';
 import { signin } from '@/service/authService';
+import { useWS } from '@/service/WSProvider';
 
 const auth = () => {
   const [phoneText, setPhoneText] = useState('');
+  const { updateAccessToken } = useWS();
 
   async function hanldeNext() {
-    if (!phoneText && phoneText.length != 10) {
+    if (!phoneText || phoneText.length !== 10) {
       Alert.alert('Bro enter your phone number');
       return;
     }
 
-    await signin({ role: 'customer', phone: phoneText });
-
-    resetAndNavigate('/customer/home');
+    await signin({ role: 'customer', phone: phoneText }, updateAccessToken);
   }
 
   return (

@@ -15,16 +15,18 @@ import PhoneInput from '@/components/shared/PhoneInput';
 import CustomButton from '@/components/shared/CustomButton';
 import { signin } from '@/service/authService';
 import { resetAndNavigate } from '@/utils/Helpers';
+import { useWS } from '@/service/WSProvider';
 
 const auth = () => {
   const [phoneText, setPhoneText] = useState('');
+  const { updateAccessToken } = useWS();
 
-  function hanldeNext() {
+  async function hanldeNext() {
     if (!phoneText && phoneText.length != 10) {
       Alert.alert('Bro enter your phone number');
       return;
     }
-    signin({ role: 'captain', phone: phoneText });
+    await signin({ role: 'captain', phone: phoneText }, updateAccessToken);
     resetAndNavigate('/captain/home');
   }
 
