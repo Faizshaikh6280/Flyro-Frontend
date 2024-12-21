@@ -2,7 +2,6 @@ import { tokenStorage } from '@/store/storage';
 import React, {
   createContext,
   FC,
-  Ref,
   useContext,
   useEffect,
   useRef,

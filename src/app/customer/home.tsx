@@ -6,7 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 import { screenHeight } from '@/utils/Constants';
 import DraggableMap from './DraggableMap';
 
-const androidHeights = [screenHeight * 0.25, screenHeight * 0.42];
+const androidHeights = [screenHeight * 0.4, screenHeight * 0.42];
 
 const iosHeights = [screenHeight * 0.2, screenHeight * 0.5];
 
