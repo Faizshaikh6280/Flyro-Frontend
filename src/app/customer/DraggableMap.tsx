@@ -189,7 +189,7 @@ const DraggableMap: FC<Props> = ({ height }) => {
   };
 
   return (
-    <View style={{ height: height || 300, width: '100%' }}>
+    <View style={{ height: height, width: '100%' }}>
       <MapView
         ref={mapRef}
         maxZoomLevel={18}
