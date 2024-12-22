@@ -23,15 +23,8 @@ const CustomText: FC<CustomTextProps> = ({
   fontFamily = 'Regular',
   numberOfLines,
 }) => {
-  // const [fontsLoaded] = useFonts({
-  //   'NotoSans-Medium': require('@/assets/fonts/NotoSans-Medium.ttf'),
-  // });
-
-  // if (!fontsLoaded) {
-  //   return null;
-  // }
   return (
-    <View>
+    <View style={{ maxWidth: 400, overflow: 'hidden' }}>
       <Text
         style={[
           styles.text,
@@ -42,6 +35,7 @@ const CustomText: FC<CustomTextProps> = ({
           style,
         ]}
         numberOfLines={numberOfLines ? numberOfLines : undefined}
+        ellipsizeMode="tail"
       >
         {children}
       </Text>

@@ -81,15 +81,17 @@ const Main = () => {
   }, [fontsLoaded, hasNavigated]);
 
   return (
-    <View style={commonStyles.container}>
-      <Image
-        source={require('@/assets/images/logo_t.png')}
-        style={splashStyles.img}
-      />
-      <CustomText variant="h5" fontFamily="Medium" style={splashStyles.text}>
-        Made in India 🇮🇳
-      </CustomText>
-    </View>
+    <>
+      <View style={commonStyles.container}>
+        <Image
+          source={require('@/assets/images/logo_t.png')}
+          style={splashStyles.img}
+        />
+        <CustomText variant="h5" fontFamily="Medium" style={splashStyles.text}>
+          Made in India 🇮🇳
+        </CustomText>
+      </View>
+    </>
   );
 };
 

@@ -51,10 +51,11 @@ export const uiStyles = StyleSheet.create({
   },
 
   locationText: {
-    width: '60%',
+    width: '70%',
     fontSize: RFValue(10),
     fontFamily: 'Regular',
     color: Colors.text,
+    flexShrink: 1, // Ensures text shrinks within its container
     opacity: 0.8,
   },
 
@@ -98,13 +99,13 @@ export const uiStyles = StyleSheet.create({
   adImage: {
     height: '100%',
     width: '100%',
-    resizeMode: 'cover',
+    resizeMode: 'contain',
   },
   adSection: {
     width: '100%',
     backgroundColor: '#E5E7EA',
-    marginVertical: 10,
-    height: 100,
+    marginVertical: 20,
+    height: 110,
   },
   banner: {
     width: '100%',
@@ -114,7 +115,6 @@ export const uiStyles = StyleSheet.create({
   bannerContainer: {
     width: '100%',
     height: screenWidth,
-    marginBottom: 100,
   },
   locationInputs: {
     padding: 15,
