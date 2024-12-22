@@ -87,7 +87,6 @@ function extractPlaceData(data: any) {
     title: item.display_place, // Name or title of the place
     description: item.display_address, // Type or category of the place
   }));
-  console.log(formatedLocations);
 
   return formatedLocations;
 }
