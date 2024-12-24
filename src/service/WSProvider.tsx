@@ -29,7 +29,7 @@ export const WSProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
   );
 
   const socket: any = useRef();
-
+  // get access token from expo-secure storage
   useEffect(() => {
     async function getToken() {
       let token = await tokenStorage.getItem('access_token');

@@ -47,6 +47,8 @@ export const signin = async (
     }
     updateAccessToken();
   } catch (error: any) {
+    console.log(error);
+
     Alert.alert('Oh! dang there was an error');
     console.log('Error: ', error?.response?.data?.msg || 'Error siging user');
   }

@@ -11,6 +11,7 @@ import CustomText from '@/components/shared/CustomText';
 
 const LocationBar = () => {
   const { location } = useUserStorage();
+
   const { disconnect } = useWS();
 
   return (

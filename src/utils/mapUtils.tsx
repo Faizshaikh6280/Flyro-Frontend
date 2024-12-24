@@ -3,29 +3,31 @@ import axios from 'axios';
 export const getLatLong = async (placeId: string) => {
   try {
     const response = await axios.get(
-      'https://maps.google.com/maps/api/place/details/json',
+      'https://eu1.locationiq.com/v1/place/details',
       {
         params: {
-          placeid: placeId,
           key: process.env.EXPO_PUBLIC_MAP_API_KEY,
+          place_id: placeId,
+          format: 'json',
         },
       }
     );
-    const data = response.data;
-    if (data.status === 'OK' && data.result) {
-      const location = data.result.geometry.location;
-      const address = data.result.formatted_address;
 
+    const data = response.data;
+
+    if (data && data.location) {
+      const { lat, lon } = data.location;
       return {
-        latitude: location.lat,
-        longitude: location.lng,
-        address: address,
+        latitude: parseFloat(lat),
+        longitude: parseFloat(lon),
+        address: data.display_name, // Full address as returned by LocationIQ
       };
     } else {
-      throw new Error('Unable to fetch location details');
+      throw new Error('No location data found');
     }
   } catch (error) {
-    throw new Error('Unable to fetch location details');
+    console.error('Error fetching lat/long:', error);
+    throw new Error('Unable to fetch latitude and longitude');
   }
 };
 
@@ -85,7 +87,8 @@ function extractPlaceData(data: any) {
   const formatedLocations = data.map((item: any) => ({
     place_id: item.place_id, // Unique place ID (may differ in some APIs)
     title: item.display_place, // Name or title of the place
-    description: item.display_address, // Type or category of the place
+    description: item.display_name, // Type or category of the place
+    latlon: [item.lat, item.lon],
   }));
 
   return formatedLocations;

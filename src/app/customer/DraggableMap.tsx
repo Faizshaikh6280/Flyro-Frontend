@@ -15,6 +15,7 @@ import haversine from 'haversine-distance';
 import { useWS } from '@/service/WSProvider';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { memo } from 'react';
+
 interface Props {
   height: number;
 }
@@ -25,7 +26,6 @@ const DraggableMap: FC<Props> = ({ height }) => {
   const mapRef = useRef<MapView>(null);
   const isFocused = useIsFocused();
   const { emit, on, off } = useWS();
-
   const { setLocation, location, setOutOfRange, outOfRange } = useUserStorage();
 
   const [markers, setMarkers] = useState<any>([]);
@@ -159,32 +159,43 @@ const DraggableMap: FC<Props> = ({ height }) => {
   };
 
   const askedLocationAccess = async () => {
-    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (!location) {
+      const { status } = await Location.requestForegroundPermissionsAsync();
 
-    if (status === 'granted') {
-      try {
-        const location = await Location.getCurrentPositionAsync({});
+      if (status === 'granted') {
+        try {
+          const location = await Location.getCurrentPositionAsync({});
 
-        const { latitude, longitude } = location.coords;
+          const { latitude, longitude } = location.coords;
 
-        mapRef?.current?.fitToCoordinates([{ latitude, longitude }], {
-          edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
-          animated: true,
-        });
+          mapRef?.current?.fitToCoordinates([{ latitude, longitude }], {
+            edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
+            animated: true,
+          });
 
-        const newRegion = {
-          latitude,
-          longitude,
-          latitudeDelta: 0.05,
-          longitudeDelta: 0.05,
-        };
+          const newRegion = {
+            latitude,
+            longitude,
+            latitudeDelta: 0.05,
+            longitudeDelta: 0.05,
+          };
 
-        handleRegionChangeComplete(newRegion);
-      } catch (error) {
-        console.log('Error getting current location', error);
+          handleRegionChangeComplete(newRegion);
+        } catch (error) {
+          console.log('Error getting current location', error);
+        }
+      } else {
+        console.log('Permission to access location was denied');
       }
     } else {
-      console.log('Permission to access location was denied');
+      console.log(location);
+
+      const { latitude, longitude } = location;
+
+      mapRef?.current?.fitToCoordinates([{ latitude, longitude }], {
+        edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
+        animated: true,
+      });
     }
   };
 

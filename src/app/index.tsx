@@ -7,7 +7,7 @@ import { useFonts } from 'expo-font';
 import { resetAndNavigate } from '@/utils/Helpers';
 import { tokenStorage } from '@/store/storage';
 import { jwtDecode } from 'jwt-decode'; // Fixed import
-import { refresh_tokens, signin } from '@/service/authService';
+import { refresh_tokens } from '@/service/authService';
 import { useUserStorage } from '@/store/userStore';
 
 const Main = () => {
