@@ -16,7 +16,7 @@ import { commonStyles } from '@/styles/commonStyles';
 import { router } from 'expo-router';
 import { uiStyles } from '@/styles/uiStyles';
 import LocationInput from './LocationInput';
-import { getLatLong, getPlacesSuggestions } from '@/utils/mapUtils';
+import { getPlacesSuggestions } from '@/utils/mapUtils';
 import { locationStyles } from '@/styles/locationStyles';
 import { useUserStorage } from '@/store/userStore';
 import LocationItem from '@/components/shared/LocationItem';
@@ -36,13 +36,23 @@ const Selectlocation = () => {
   const [isMapModalVisible, setMapModalVisible] = useState(false);
 
   async function addLocation({ item: location }: any) {
+    // console.log(location);
+
     if (location.place_id) {
       if (focusedInput === 'drop') {
         setDrop(location?.description);
-        setDropCoords(location?.latlong);
+        setDropCoords({
+          latitude: parseFloat(location?.latlon[0]),
+          longitude: parseFloat(location?.latlon[1]),
+          address: location.description,
+        });
       } else {
         setPickup(location?.description);
-        setPickupCoords(location?.latlong);
+        setPickupCoords({
+          latitude: parseFloat(location?.latlon[0]),
+          longitude: parseFloat(location?.latlon[1]),
+          address: location.description,
+        });
 
         const newLoc = {
           address: location.description,

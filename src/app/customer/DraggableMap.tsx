@@ -188,8 +188,6 @@ const DraggableMap: FC<Props> = ({ height }) => {
         console.log('Permission to access location was denied');
       }
     } else {
-      console.log(location);
-
       const { latitude, longitude } = location;
 
       mapRef?.current?.fitToCoordinates([{ latitude, longitude }], {

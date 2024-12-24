@@ -33,9 +33,11 @@ const LocationBar = () => {
             }}
           >
             <View style={uiStyles.dot} />
-            <CustomText numberOfLines={1} style={uiStyles.locationText}>
-              {location?.address || 'Getting address...'}
-            </CustomText>
+            <View style={{ flex: 1, width: '80%' }}>
+              <CustomText numberOfLines={1} style={uiStyles.locationText}>
+                {location?.address || 'Getting address...'}
+              </CustomText>
+            </View>
           </TouchableOpacity>
         </View>
       </SafeAreaView>

@@ -51,7 +51,7 @@ export const uiStyles = StyleSheet.create({
   },
 
   locationText: {
-    width: '70%',
+    width: '100%',
     fontSize: RFValue(10),
     fontFamily: 'Regular',
     color: Colors.text,
