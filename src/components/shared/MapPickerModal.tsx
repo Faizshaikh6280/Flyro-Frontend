@@ -55,8 +55,8 @@ const MapPickerModal: FC<MapPickerInterface> = ({
       const newRegion = {
         latitude: parseFloat(location.latlon[0]),
         longitude: parseFloat(location.latlon[1]),
-        latitudeDelta: 0.5,
-        longitudeDelta: 0.5,
+        latitudeDelta: 0.005,
+        longitudeDelta: 0.005,
       };
 
       mapRef?.current?.fitToCoordinates(
@@ -66,6 +66,9 @@ const MapPickerModal: FC<MapPickerInterface> = ({
           animated: true,
         }
       );
+      setTimeout(() => {
+        mapRef?.current?.animateToRegion(newRegion, 500);
+      }, 1000);
 
       setRegion(newRegion);
       setAddress(location.description);

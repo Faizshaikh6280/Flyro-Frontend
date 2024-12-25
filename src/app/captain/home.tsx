@@ -1,7 +1,7 @@
 import { View } from 'react-native';
 import React from 'react';
 import { homeStyles } from '@/styles/homeStyles';
-import LocationBar from '../customer/LocationBar';
+import LocationBar from '../../components/customer/LocationBar';
 import { StatusBar } from 'expo-status-bar';
 
 const home = () => {

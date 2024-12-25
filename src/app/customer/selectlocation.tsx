@@ -16,7 +16,7 @@ import CustomText from '@/components/shared/CustomText';
 import { commonStyles } from '@/styles/commonStyles';
 import { router } from 'expo-router';
 import { uiStyles } from '@/styles/uiStyles';
-import LocationInput from './LocationInput';
+import LocationInput from '../../components/customer/LocationInput';
 import { calculateDistance, getPlacesSuggestions } from '@/utils/mapUtils';
 import { locationStyles } from '@/styles/locationStyles';
 import { useUserStorage } from '@/store/userStore';
@@ -91,17 +91,20 @@ const Selectlocation = () => {
 
     if (lat1 == lat2 && lon1 == lon2) {
       Alert.alert(
-        'Pickup and drop locations cannot be same.Please choose diffrent locations'
+        'Pickup and drop locations cannot be same.Please choose diffrent drop location'
       );
       return;
     }
+
     const distance = calculateDistance(lat1, lon1, lat2, lon2);
     if (distance < 0.5) {
       // if distance is less than 500 meter
-      alert('The locations are too closed. Please choose different locations');
+      alert(
+        'The locations are too closed. Please choose farther drop location'
+      );
     } else if (distance > 50) {
       alert(
-        'The locations are too far apart. Please choose different locations'
+        'The locations are too far apart. Please choose closer drop location'
       );
     } else {
       setSuggestLocations([]);
@@ -115,7 +118,6 @@ const Selectlocation = () => {
         },
       });
       setMapModalVisible(false);
-      console.log(`Distance is valid  : ${distance.toFixed(2)}`);
     }
   }
 

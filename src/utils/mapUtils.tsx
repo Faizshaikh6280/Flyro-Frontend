@@ -1,4 +1,5 @@
 import axios from 'axios';
+import polyline from '@mapbox/polyline';
 
 export const getLatLong = async (placeId: string) => {
   try {
@@ -111,6 +112,31 @@ export const calculateDistance = (
       Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
+};
+
+export const fetchRoute = async (
+  pickup: any,
+  drop: any,
+  setRouteCoordinates: any
+) => {
+  try {
+    const response = await axios.get(
+      `https://us1.locationiq.com/v1/directions/driving/${pickup.longitude},${pickup.latitude};${drop.longitude},${drop.latitude}?key=${process.env.EXPO_PUBLIC_MAP_API_KEY}`
+    );
+
+    if (response.data?.routes?.[0]?.geometry) {
+      const { geometry } = response.data.routes[0];
+      const decodedCoordinates = polyline
+        .decode(geometry)
+        .map(([lat, lon]: [number, number]) => ({
+          latitude: lat,
+          longitude: lon,
+        }));
+      setRouteCoordinates(decodedCoordinates);
+    }
+  } catch (error) {
+    console.error('Error fetching route:', error);
+  }
 };
 
 export const calculateFare = (distance: number) => {

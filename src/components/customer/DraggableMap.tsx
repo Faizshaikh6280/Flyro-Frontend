@@ -176,9 +176,14 @@ const DraggableMap: FC<Props> = ({ height }) => {
           const newRegion = {
             latitude,
             longitude,
-            latitudeDelta: 0.05,
-            longitudeDelta: 0.05,
+            latitudeDelta: 0.005,
+            longitudeDelta: 0.005,
           };
+
+          // After fitting, zoom in further
+          setTimeout(() => {
+            mapRef?.current?.animateToRegion(newRegion, 500);
+          }, 1000);
 
           handleRegionChangeComplete(newRegion);
         } catch (error) {

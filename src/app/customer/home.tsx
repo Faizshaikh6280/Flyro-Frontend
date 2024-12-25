@@ -1,12 +1,12 @@
 import { Platform, View } from 'react-native';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { homeStyles } from '@/styles/homeStyles';
-import LocationBar from '../customer/LocationBar';
+import LocationBar from '../../components/customer/LocationBar';
 import { StatusBar } from 'expo-status-bar';
 import { screenHeight } from '@/utils/Constants';
-import DraggableMap from './DraggableMap';
+import DraggableMap from '../../components/customer/DraggableMap';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import SheetContent from './SheetContent';
+import SheetContent from '../../components/customer/SheetContent';
 
 const androidHeights = [
   screenHeight * 0.2,
