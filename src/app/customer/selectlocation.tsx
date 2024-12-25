@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   FlatList,
   Image,
+  Alert,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { homeStyles } from '@/styles/homeStyles';
@@ -16,7 +17,7 @@ import { commonStyles } from '@/styles/commonStyles';
 import { router } from 'expo-router';
 import { uiStyles } from '@/styles/uiStyles';
 import LocationInput from './LocationInput';
-import { getPlacesSuggestions } from '@/utils/mapUtils';
+import { calculateDistance, getPlacesSuggestions } from '@/utils/mapUtils';
 import { locationStyles } from '@/styles/locationStyles';
 import { useUserStorage } from '@/store/userStore';
 import LocationItem from '@/components/shared/LocationItem';
@@ -36,8 +37,6 @@ const Selectlocation = () => {
   const [isMapModalVisible, setMapModalVisible] = useState(false);
 
   async function addLocation({ item: location }: any) {
-    // console.log(location);
-
     if (location.place_id) {
       if (focusedInput === 'drop') {
         setDrop(location?.description);
@@ -86,12 +85,54 @@ const Selectlocation = () => {
     setSuggestLocations(locations);
   }
 
+  async function checkDistance() {
+    const { latitude: lat1, longitude: lon1 } = pickupCoords;
+    const { latitude: lat2, longitude: lon2 } = dropCoords;
+
+    if (lat1 == lat2 && lon1 == lon2) {
+      Alert.alert(
+        'Pickup and drop locations cannot be same.Please choose diffrent locations'
+      );
+      return;
+    }
+    const distance = calculateDistance(lat1, lon1, lat2, lon2);
+    if (distance < 0.5) {
+      // if distance is less than 500 meter
+      alert('The locations are too closed. Please choose different locations');
+    } else if (distance > 50) {
+      alert(
+        'The locations are too far apart. Please choose different locations'
+      );
+    } else {
+      setSuggestLocations([]);
+      router.navigate({
+        pathname: '/customer/ridebooking',
+        params: {
+          distanceInKm: distance,
+          drop_latitude: dropCoords?.latitude,
+          drop_longitude: dropCoords?.longitude,
+          drop_address: dropCoords?.address,
+        },
+      });
+      setMapModalVisible(false);
+      console.log(`Distance is valid  : ${distance.toFixed(2)}`);
+    }
+  }
+
   useEffect(() => {
     if (location) {
       setPickupCoords(location);
       setPickup(location?.address);
     }
   }, [location]);
+
+  useEffect(() => {
+    if (dropCoords && pickupCoords) {
+      checkDistance();
+    } else {
+      setSuggestLocations([]);
+    }
+  }, [dropCoords, pickupCoords]);
 
   return (
     <View style={homeStyles.container}>

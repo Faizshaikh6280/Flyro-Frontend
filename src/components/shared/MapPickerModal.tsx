@@ -107,27 +107,37 @@ const MapPickerModal: FC<MapPickerInterface> = ({
 
         const { latitude, longitude } = location.coords;
 
-        mapRef?.current?.fitToCoordinates([{ latitude, longitude }], {
-          edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
-          animated: true,
-        });
-
         const newRegion = {
           latitude,
           longitude,
-          latitudeDelta: 0.05,
-          longitudeDelta: 0.05,
+          latitudeDelta: 0.005,
+          longitudeDelta: 0.005,
         };
+
+        mapRef?.current?.fitToCoordinates(
+          [{ latitude: newRegion.latitude, longitude: newRegion.longitude }],
+          {
+            edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
+            animated: true,
+          }
+        );
+
+        setTimeout(() => {
+          mapRef?.current?.animateToRegion(newRegion, 500);
+        }, 1000);
+
         const address = await reverseGeocode(
-          newRegion?.latitude,
+          newRegion.latitude,
           newRegion.longitude
         );
 
-        setLocation({
-          longitude: newRegion?.latitude,
-          latitude: newRegion?.latitude,
-          address: address,
-        });
+        if (title === 'pickup') {
+          setLocation({
+            latitude: newRegion.latitude,
+            longitude: newRegion.longitude,
+            address: address,
+          });
+        }
       } catch (error) {
         console.log('Error getting current location', error);
       }
@@ -140,8 +150,8 @@ const MapPickerModal: FC<MapPickerInterface> = ({
     const newRegion = {
       latitude: selectedLocation.latitude,
       longitude: selectedLocation.longitude,
-      latitudeDelta: 0.5,
-      longitudeDelta: 0.5,
+      latitudeDelta: 0.005,
+      longitudeDelta: 0.005,
     };
 
     mapRef?.current?.fitToCoordinates(
@@ -151,6 +161,10 @@ const MapPickerModal: FC<MapPickerInterface> = ({
         animated: true,
       }
     );
+    // After fitting, zoom in further
+    setTimeout(() => {
+      mapRef?.current?.animateToRegion(newRegion, 500);
+    }, 1000);
 
     setRegion(newRegion);
     setAddress(selectedLocation.address);
