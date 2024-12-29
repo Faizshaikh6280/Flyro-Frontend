@@ -13,7 +13,7 @@ const apiKey = process.env.EXPO_PUBLIC_MAP_API_KEY || '';
 
 const RoutesMap = ({ drop, pickup }: any) => {
   const mapRef = useRef<MapView>(null);
-  const [routeCoordinates, setRouteCoordinates] = React.useState([]);
+  const [routeCoordinates, setRouteCoordinates] = React.useState<any>(null);
 
   async function fitToMarkers() {
     const coordinates = [];
@@ -77,11 +77,20 @@ const RoutesMap = ({ drop, pickup }: any) => {
     }
   }, [pickup, drop]);
 
+  useEffect(() => {
+    if (routeCoordinates?.length > 0) {
+      mapRef?.current?.fitToCoordinates(routeCoordinates, {
+        edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
+        animated: true,
+      });
+    }
+  }, [routeCoordinates]);
+
   return (
     <View style={{ flex: 1 }}>
       <MapView
         ref={mapRef}
-        // customMapStyle={customMapStyle}
+        customMapStyle={customMapStyle}
         pitchEnabled={false}
         followsUserLocation
         initialRegion={calculateInitialRegion()}
@@ -96,7 +105,7 @@ const RoutesMap = ({ drop, pickup }: any) => {
         showsUserLocation={true}
         style={{ flex: 1 }}
       >
-        {routeCoordinates.length > 0 && (
+        {routeCoordinates?.length > 0 && (
           <Polyline
             coordinates={routeCoordinates}
             strokeColor="red"
@@ -104,7 +113,7 @@ const RoutesMap = ({ drop, pickup }: any) => {
           />
         )}
 
-        {drop.latitude && pickup?.latitude && (
+        {drop.latitude && pickup.latitude && (
           <MapViewDirectiions
             origin={pickup}
             destination={drop}
@@ -121,8 +130,6 @@ const RoutesMap = ({ drop, pickup }: any) => {
 
         {pickup?.latitude && (
           <Marker
-            title="Pickup"
-            flat
             coordinate={{
               latitude: pickup.latitude,
               longitude: pickup.longitude,
@@ -136,10 +143,9 @@ const RoutesMap = ({ drop, pickup }: any) => {
             />
           </Marker>
         )}
+
         {drop?.latitude && (
           <Marker
-            title="Drop"
-            flat
             coordinate={{ latitude: drop.latitude, longitude: drop.longitude }}
             anchor={{ x: 0.5, y: 0.5 }}
             zIndex={1}

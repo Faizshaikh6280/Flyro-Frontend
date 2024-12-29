@@ -52,11 +52,12 @@ const Main = () => {
         }
 
         if (user) {
-          resetAndNavigate('/customer/home');
+          return resetAndNavigate('/customer/home');
         } else {
-          resetAndNavigate('/captain/home');
+          return resetAndNavigate('/captain/home');
         }
       }
+      resetAndNavigate('/role');
 
       return;
     } catch (error) {

@@ -26,8 +26,8 @@ export const signin = async (
   try {
     const { setUser } = useUserStorage.getState();
     const { setUser: setCaptainUser } = useCaptainStore.getState();
+    console.log(payload);
     const res = await appAxios.post(`/auth/signin`, payload);
-
     if (res.data.user.role === 'customer') {
       setUser(res.data.user);
     } else {

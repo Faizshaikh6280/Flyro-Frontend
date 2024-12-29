@@ -10,10 +10,10 @@ import { commonStyles } from '@/styles/commonStyles';
 import { router } from 'expo-router';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { opacity } from 'react-native-reanimated/lib/typescript/Colors';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import CustomButton from '@/components/shared/CustomButton';
 import RoutesMap from '@/components/customer/RoutesMap';
+import { createRide } from '@/service/rideService';
 
 const RideBooking = () => {
   const route = useRoute();
@@ -69,7 +69,30 @@ const RideBooking = () => {
     setSelectedOption(type);
   }, []);
 
-  const handleRideBooking = async () => {};
+  const handleRideBooking = async () => {
+    setLoading(true);
+    await createRide({
+      vehicle:
+        selectedOption === 'Cab Economy'
+          ? 'cabEconomy'
+          : selectedOption === 'Cab Premium'
+          ? 'cabPremium'
+          : selectedOption === 'Bike'
+          ? 'bike'
+          : 'auto',
+      drop: {
+        latitude: parseFloat(item.drop_latitude),
+        longitude: parseFloat(item.drop_longitude),
+        address: item?.drop_address,
+      },
+      pickup: {
+        latitude: location?.latitude as number,
+        longitude: location?.longitude as number,
+        address: location?.address as string,
+      },
+    });
+    setLoading(false);
+  };
 
   return (
     <View style={rideStyles.container}>

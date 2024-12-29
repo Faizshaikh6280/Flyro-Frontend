@@ -8,7 +8,7 @@ import React, {
   useState,
 } from 'react';
 import { io } from 'socket.io-client';
-import { SOCKET_URL } from './config';
+import { BASE_URL } from './config';
 import { refresh_tokens } from './authService';
 
 interface WSService {
@@ -44,7 +44,7 @@ export const WSProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
         socket.current.disconnect();
       }
 
-      socket.current = io(SOCKET_URL, {
+      socket.current = io(BASE_URL, {
         transports: ['websocket'],
         withCredentials: true,
         extraHeaders: {

@@ -12,8 +12,6 @@ import CustomText from '@/components/shared/CustomText';
 const LocationBar = () => {
   const { location } = useUserStorage();
 
-  const { disconnect } = useWS();
-
   return (
     <View style={[uiStyles.absoluteTop, { marginTop: 8 }]}>
       <SafeAreaView>

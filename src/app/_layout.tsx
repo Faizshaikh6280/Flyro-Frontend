@@ -14,6 +14,8 @@ const Layout = () => {
         <Stack.Screen name="customer/auth" />
         <Stack.Screen name="customer/home" />
         <Stack.Screen name="customer/selectlocation" />
+        <Stack.Screen name="customer/ridebooking" />
+        <Stack.Screen name="customer/liveride" />
 
         {/* Customer  Screens*/}
         <Stack.Screen name="captain/auth" />
